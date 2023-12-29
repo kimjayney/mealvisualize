@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""/>
+    <title>맛집디비</title>
+    <style>
+        html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+
+        body {
+            padding: 0;
+            margin: 0;
+            height: 100%;
+        }
+         
+        #category { 
+            background-color: black;
+            width:400px;
+            height:100%;
+            position:relative
+        }
+        #category ul#logo {
+            margin: 0;
+            color: white;
+            list-style: none;
+            line-height: 4;
+            padding: 0;
+            text-align: center;
+        }
+        #category ul#logo li {
+            text-align: center;
+        }
+        #category ul {
+            margin: 0;
+            color: white;
+            list-style: none;
+            line-height: 4;
+            padding: 0;
+            text-align: center;
+        }
+
+        div#container {
+            height: 100%;
+            display:flex;
+            flex-direction: row;
+        }
+        #map{
+            width: 100%;
+            height: 100vh;
+        }
+        ul{
+            cursor: pointer;
+        }
+        li p {
+            margin:0;
+            
+        }
+        li a {
+            color: gray;
+            padding-left:8px;
+            transition: 0.4s;
+        }
+        li a.active {
+            color: white;
+            transition: 0.4s;
+        }
+        .indicator {
+            position: absolute;
+            width:40px;
+            height:40px;
+            display:block;
+            bottom:0;
+            right:-40px;
+            background-color: black;
+            z-index:3;
+            cursor:pointer; 
+            color:white;
+            opacity: 0.9;
+            transition:0.3s;
+        }
+        .indicator:hover {
+            opacity: 0.7;
+            transition:0.3s;
+        }
+    </style>
+</head>
+<body>
+    <div id="container"> 
+        <div class="indicator">
+            <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" fill="currentColor" class="bi bi-arrow-bar-right" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M6 8a.5.5 0 0 0 .5.5h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L12.293 7.5H6.5A.5.5 0 0 0 6 8m-2.5 7a.5.5 0 0 1-.5-.5v-13a.5.5 0 0 1 1 0v13a.5.5 0 0 1-.5.5"/>
+              </svg>
+        </div>
+        <div id="category"> 
+            <ul class="Locations">
+                <li>
+                    <p>위치</p>
+                    <a href="#">서초구</a>
+                    <a href="#">강남구</a> 
+                </li>
+            </ul>
+            <ul class="mealType">
+                <li>
+                    <p>음식점</p>
+                    <a href="#">한식</a>
+                    <a href="#">중식</a>
+                    <a href="#">양식</a>
+                    <a href="#">뷔페</a>
+                    <a href="#">치킨</a>
+                    <a href="#">뷔페</a> 
+                </li>
+            </ul>
+            <ul class="feel">
+                <li>
+                    <p>분위기</p>
+                    <a href="#">넓은</a>
+                    <a href="#">분위기좋은</a>
+                    <a href="#">인테리어</a>
+                </li>
+            </ul>
+            <ul class="price">
+                <li>
+                    <p>가격대</p>
+                    <a href="#">비싼</a>
+                    <a href="#">보통</a>
+                    <a href="#">싼</a>
+                </li>
+            </ul>
+            <ul class="rating">
+                <li>
+                    <p>맛</p>
+                    <a href="#">매움</a>
+                    <a href="#">보통</a>
+                    <a href="#">싱거움</a>
+                </li>
+            </ul>
+        </div>
+        <div id="map"></div>
+        <div id="detail">
+            
+        </div>
+    </div>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""></script>
+    <script>
+        let mapOptions = {
+            center:[37.5, 127.6],
+            zoom:10
+        }
+ 
+        let map = new L.map('map' , mapOptions);
+        let all = ['Locations','mealType','feel', 'price', 'rating' ]
+        all.forEach((item) => {
+            let items = document.getElementsByClassName(item)[0].getElementsByTagName("a")
+            for(let i = 0; i< items.length; i++) {
+                items[i].setAttribute("parameter", item)
+                items[i].setAttribute("onclick", `updateFilter('${items[i].innerHTML}', this);` )
+            }
+        })
+
+        let layer = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
+        map.addLayer(layer);
+
+        var greenIcon = L.icon({
+            iconUrl: 'https://leafletjs.com/examples/custom-icons/leaf-green.png',
+            shadowUrl: 'https://leafletjs.com/examples/custom-icons/leaf-shadow.png',
+            iconSize:     [38, 95], // size of the icon
+            shadowSize:   [50, 64], // size of the shadow
+            iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
+            shadowAnchor: [4, 62],  // the same for the shadow
+            popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+        });
+
+        let markerLists = []
+
+        function addMarkers(x, y, data) {
+            let marker = new L.Marker([x, y], {icon: greenIcon});
+            marker.addTo(map).bindPopup(data);
+            markerLists.push(marker)
+        }
+
+        function removeMarkers() {
+            for(var i = 0; i < markerLists.length; i++)  {
+                map.removeLayer(markerLists[i]);
+            }
+        }
+
+        function updateFilter(item, object) { 
+            if(object.classList.contains("active")) {
+                object.classList.remove("active")
+            } else {
+                object.classList.add("active")
+            }
+            let filtersKey= {}
+            all.forEach((item) => {
+                let filters = document.getElementsByClassName(item)[0].getElementsByClassName("active")
+                for(let i = 0; i < filters.length; i++) {
+                    if(filtersKey[item] === undefined) {
+                        filtersKey[item] = []
+                    }
+                    filtersKey[item].push(filters[i].innerHTML)
+                }
+            })
+            let parameter = []
+            for(key in filtersKey){ 
+                parameter.push(`${key}=${filtersKey[key]}`)
+            }
+            fetch(`https://backend.rainclab.workers.dev/api/get?${parameter.join("&")}`).then(res => res.json())
+            .then(json => {
+                console.log(json)
+            });  
+        }
+        
+        function drawLocations(category) {
+            
+        }
+    </script>
+</body>
+</html>
