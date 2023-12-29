@@ -157,7 +157,7 @@
         }
  
         let map = new L.map('map' , mapOptions);
-        let all = ['Locations','mealType','feel', 'price', 'rating' ]
+        let all = ['Location','mealType','feel', 'price', 'rating' ]
         all.forEach((item) => {
             let items = document.getElementsByClassName(item)[0].getElementsByTagName("a")
             for(let i = 0; i< items.length; i++) {
