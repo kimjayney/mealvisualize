@@ -163,7 +163,7 @@
             zoom:10,
             zoomControl: false 
         }
- 
+        document.getElementsByClassName("indicator")[0].click()
         let map = new L.map('map' , mapOptions);
         let all = ['Location','mealType','feel', 'price', 'rating' ]
         all.forEach((item) => {
