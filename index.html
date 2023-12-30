@@ -22,6 +22,9 @@
             overflow: hidden;
 
         }
+        .offcanvas {
+            opacity: 0.8;
+        }
         body * { touch-action: none; }
          
         #category { 
@@ -75,17 +78,20 @@
             color: white;
             transition: 0.4s;
         }
+        
         .indicator {
             position: absolute;
             width: 40px;
-            height: 40px;
-            background-color: black;
+            height: 40px; 
             cursor: pointer;
             color: white;
-            opacity: 0.9;
             transition: 0.3s;
-            z-index: 500;
+            z-index: 5000;  
         }
+        .indicator.black {
+            color: black
+        }
+         
         .indicator:hover {
             opacity: 0.7;
             transition:0.3s;
@@ -97,7 +103,7 @@
 </head>
 <body>
     <div id="container"> 
-        <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+        <div class="offcanvas offcanvas-start show" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
             <div id="category"> 
                 <ul class="Location">
                     <li>
@@ -170,7 +176,13 @@
             zoom:10,
             zoomControl: false 
         }
-        
+        document.getElementsByClassName("indicator")[0].onclick = (e) => {
+            if (e.delegateTarget.classList.contains("black")) {
+                e.delegateTarget.classList.remove("black")
+            } else {
+                e.delegateTarget.classList.add("black")
+            }
+        }
         let map = new L.map('map' , mapOptions);
         let all = ['Location','mealType','feel', 'price', 'rating' ]
         all.forEach((item) => {
@@ -226,7 +238,10 @@
                     addMarkers(json.data[i].Lat, json.data[i].Lng, json.data[i].REVIEW_CONTENT)
                 }
                 loading.style="display:none";
-            });  
+            }).catch((e) => {
+                console.log(e)
+                loading.style="display:none";
+            });
         }
         
         
