@@ -90,6 +90,9 @@
             opacity: 0.7;
             transition:0.3s;
         }
+        .spinner-border {
+            width: 3rem; height: 3rem; position:fixed; right:0; z-index:99999
+        }
     </style>
 </head>
 <body>
@@ -141,6 +144,7 @@
                 </ul>
             </div>
           </div>
+          
         <div class="indicator" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
             
             <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" fill="currentColor" class="bi bi-arrow-bar-right" viewBox="0 0 16 16">
@@ -150,6 +154,9 @@
          
         
         <div id="map"></div>
+        <div class="spinner-border" style="display:none" id="loading" role="status">
+            <span class="sr-only"></span>
+          </div>
         <div id="detail">
             
         </div>
@@ -163,7 +170,7 @@
             zoom:10,
             zoomControl: false 
         }
-        document.getElementsByClassName("indicator")[0].click()
+        
         let map = new L.map('map' , mapOptions);
         let all = ['Location','mealType','feel', 'price', 'rating' ]
         all.forEach((item) => {
@@ -190,8 +197,9 @@
                 map.removeLayer(markerLists[i]);
             }
         }
-
+        
         function updateFilter(item, object) {
+            loading.style="display:block"    
             removeMarkers() 
             if(object.classList.contains("active")) {
                 object.classList.remove("active")
@@ -216,10 +224,12 @@
             .then(json => {
                 for(let i = 0; i < json.data.length; i++) {
                     addMarkers(json.data[i].Lat, json.data[i].Lng, json.data[i].REVIEW_CONTENT)
-                } 
+                }
+                loading.style="display:none";
             });  
         }
-         
+        
+        
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </body>
