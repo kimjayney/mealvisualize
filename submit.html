@@ -38,14 +38,32 @@
                 <input onclick="openAddress()" name="locations" type="text" class="form-control" id="address" placeholder="서울 서초구 사임당로 111-4">
                 <label for="address">주소를 입력해 주세요! 예시)서초구 무슨동 무슨로 33</label>
             </div>
-            <input id="hiddenaddress" type="hidden" name="address"/>
+            <input id="hiddenaddress" type="hidden" name="address"/> 
+            <div class="form-floating">
+                <select class="form-select" name="mealtype" id="floatingSelect" aria-label="Floating label select example">
+                  <option selected>Open this select menu</option>
+                  <option value="간식">간식</option>
+                  <option value="분식">분식</option>
+                  <option value="뷔페">뷔페</option>
+                  <option value="한식 ">한식</option>
+                  <option value="중식">중식</option>
+                  <option value="일식">일식</option>
+                  <option value="패스트푸드">패스트푸드</option>
+                  <option value="피자">피자</option>
+                  <option value="치킨">치킨</option> 
+                </select>
+                <label for="floatingSelect">음식의 종류를 알려주세요! 😌</label>
+              </div>
             <div class="form-floating mb-3">
-                <input required name="mealtype" type="text" class="form-control" id="feel" placeholder="넓은">
-                <label for="feel">음식의 종류를 알려주세요! 😌(한식 또는 중식 또는 양식, 기타..)</label>
-            </div>
-            <div class="form-floating mb-3">
-                <input required name="feel" type="text" class="form-control" id="feel" placeholder="넓은">
-                <label for="feel">분위기는 어땠을까요? 😌(넓은,분위기좋은,인테리어) 또는 원하는 키워드 입력</label>
+                <select class="form-select" name="feel" id="feel" aria-label="Floating label select example">
+                    <option selected>Open this select menu</option>
+                    <option value="넓은">넓은</option>
+                    <option value="분위기좋은">분위기좋은</option>
+                    <option value="인테리어">인테리어</option>
+                    <option value="평범">평범</option>
+                  </select>
+                  <label for="feel">분위기는 어땠을까요? 😌(넓은,분위기좋은,인테리어)</label>
+                </div>
             </div>
             <div class="form-floating mb-3">
                 <input required name="price" type="text" class="form-control" id="price" placeholder="넓은">
