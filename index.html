@@ -215,13 +215,12 @@
             }
             fetch(`https://backend.rainclab.workers.dev/api/get?${parameter.join("&")}`).then(res => res.json())
             .then(json => {
-                console.log(json)
+                for(let i = 0; i < json.data.length; i++) {
+                    addMarkers(json.data[i].Lat, json.data[i].Lng, json.data[i].REVIEW_CONTENT)
+                } 
             });  
         }
-        
-        function drawLocations(category) {
-            
-        }
+         
     </script>
 </body>
 </html>
