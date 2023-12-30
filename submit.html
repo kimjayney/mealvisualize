@@ -18,31 +18,45 @@
 </head>
 <body>
     <div id="container">
-        <h1>식당등록하기🤣</h1>
+        <h1>맛집등록🤣</h1>
         <b>디비를 채워주세요!</b>
-        <form id="forsubmit">
+        <!-- const name = params.get('name')
+			const location = params.get('locations')
+			const mealtype = params.get('mealtype')
+			const feel = params.get('feel')
+			const price = params.get('price')
+			const rating = params.get('rating')
+			const REVIEW_CONTENT = params.get('review_content')
+			const lat = params.get('lat')
+			const lng = params.get('lng') -->
+        <form method="get" action="https://backend.rainclab.workers.dev/api/post" id="forsubmit">
             <div class="form-floating mb-3">
-                <input name="name" type="text" class="form-control" id="mealname" placeholder="맛있는제육식당">
+                <input required name="name" type="text" class="form-control" id="mealname" placeholder="맛있는제육식당">
                 <label for="mealname">맛집 이름을 알려주세요!😋</label>
             </div>
             <div class="form-floating mb-3">
                 <input onclick="openAddress()" name="locations" type="text" class="form-control" id="address" placeholder="서울 서초구 사임당로 111-4">
-                <label for="address">주소를 입력해 주세요! 예시)서초구</label>
+                <label for="address">주소를 입력해 주세요! 예시)서초구 무슨동 무슨로 33</label>
+            </div>
+            <input id="hiddenaddress" type="hidden" name="address"/>
+            <div class="form-floating mb-3">
+                <input required name="mealtype" type="text" class="form-control" id="feel" placeholder="넓은">
+                <label for="feel">음식의 종류를 알려주세요! 😌(한식 또는 중식 또는 양식, 기타..)</label>
             </div>
             <div class="form-floating mb-3">
-                <input name="feel" type="text" class="form-control" id="feel" placeholder="넓은">
+                <input required name="feel" type="text" class="form-control" id="feel" placeholder="넓은">
                 <label for="feel">분위기는 어땠을까요? 😌(넓은,분위기좋은,인테리어) 또는 원하는 키워드 입력</label>
             </div>
             <div class="form-floating mb-3">
-                <input name="price" type="text" class="form-control" id="price" placeholder="넓은">
+                <input required name="price" type="text" class="form-control" id="price" placeholder="넓은">
                 <label for="price">가격을 보통, 비싼, 싼 중 하나를 입력해 주세요~😆</label>
             </div>
             <div class="form-floating mb-3">
-                <input name="rating" type="text" class="form-control" id="rating" placeholder="4.5">
+                <input required name="rating" type="text" class="form-control" id="rating" placeholder="4.5">
                 <label for="rating">평점은?🥺 3.0부터 5.0까지</label>
             </div>
             <div class="form-floating mb-3">
-                <input name="review_content" type="text" class="form-control" id="review_content" placeholder="4.5">
+                <input required name="review_content" type="text" class="form-control" id="review_content" placeholder="4.5">
                 <label for="review_content">리뷰하고 싶은 내용 (맛집 클릭 시 나오는 내용입니다.)😀</label>
             </div>
             <div class="form-floating mb-3">
@@ -53,14 +67,13 @@
                 <input readonly name="lng" type="text" class="form-control" id="lng" placeholder="4.5">
                 <label for="lng">경도( 주소 입력시 자동 입력됨 )😂</label>
             </div> 
+            
         </form>
         <div id="map" style=" width:100%;height:400px;">
 
         </div>
-        
+        <button type="button" id="submitbtn" class="btn btn-outline-primary">이대로 등록할게요😀</button>
         <p>관리자 승인후에 등록됩니다👍</p>
-        <button type="button" class="btn btn-outline-primary">등록하기</button>
-
     </div>
     <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=57a63270870e59dc71bf6117850386e9&libraries=services,clusterer&autoload=true"></script>
@@ -70,8 +83,22 @@
     <script>
         let mapOptions = {
             center:[37.5, 127.6],
-            zoom:10,
-            
+            zoom:10
+        }
+        const API_URL = "https://backend.rainclab.workers.dev"
+        submitbtn.onclick = () => {
+            const form = document.getElementById("forsubmit");
+            const parameter = new URLSearchParams(new FormData(form)).toString()
+            fetch(`${API_URL}/api/post?${parameter}`).then(res => res.json())
+            .then(json => {
+                console.log(json)
+                alert(json.message_ko_KR)
+            }).catch((e) => {
+                console.log(e)
+            })
+            // const request = new XMLHttpRequest();
+            // request.send(params);
+        
         }
  
         let map = new L.map('map' , mapOptions, );
@@ -108,6 +135,7 @@
                         }
                         
                     }; 
+                    hiddenaddress.value = data.address
                     geocoder.addressSearch(data.address, callback);
                     
                 }
