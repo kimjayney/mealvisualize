@@ -258,11 +258,11 @@
                 
                 for(let i = 0; i < json.data.length; i++) {
                     const reviewContentHumanize = `
-                <p>이름:${json.data[i].name}</p>
-                <p>평점:${json.data[i].rating}</p>
-                <p>분위기:${json.data[i].feel}</p>
-                <p>가격:${json.data[i].price}</p>
-                <p>음식종류:${json.data[i].mealtype}</p>
+                <p>이름:${json.data[i].NAME}</p>
+                <p>평점:${json.data[i].Rating}/5.0</p>
+                <p>분위기:${json.data[i].Feel}</p>
+                <p>가격:${json.data[i].Price}</p>
+                <p>음식종류:${json.data[i].Mealtype}</p>
                 <p>사용자작성리뷰:${json.data[i].REVIEW_CONTENT}</p>
                 `
                     addMarkers(json.data[i].Lat, json.data[i].Lng, reviewContentHumanize)
