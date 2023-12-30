@@ -14,6 +14,10 @@
             margin-left:auto;
             margin-right:auto;
         }
+        .modal-dialog {
+            max-width: 534px;
+        }
+   
     </style>
 </head>
 <body>
@@ -25,8 +29,22 @@
                 <input required name="name" type="text" class="form-control" id="mealname" placeholder="맛있는제육식당">
                 <label for="mealname">맛집 이름을 알려주세요!😋</label>
             </div>
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h1 class="modal-title fs-5" id="exampleModalLabel">주소 입력</h1>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div id="postLayer" class="modal-body">
+                       
+                    </div>
+                  </div>
+                </div>
+              </div>
+
             <div class="form-floating mb-3">
-                <input onclick="openAddress()" name="locations" type="text" class="form-control" id="address" placeholder="서울 서초구 사임당로 111-4">
+                <input data-bs-toggle="modal" data-bs-target="#exampleModal" name="locations" type="text" class="form-control" id="address" placeholder="서울 서초구 사임당로 111-4">
                 <label for="address">주소를 입력해 주세요! 예시)서초구 무슨동 무슨로 33</label>
             </div>
             <input id="hiddenaddress" type="hidden" name="address"/> 
@@ -131,8 +149,11 @@
                 map.removeLayer(markerLists[i]);
             }
         }
- 
+        exampleModal.addEventListener('shown.bs.modal', () => {
+            openAddress()
+        })
         function openAddress() {
+            var postLayer = document.getElementById("postLayer");
             new daum.Postcode({
                 oncomplete: function(data) {
                     console.log(data)
@@ -148,13 +169,13 @@
                             var targetZoomLevel = 17; // 원하는 줌 레벨을 설정합니다. 
                             map.setView([result[0].y, result[0].x], targetZoomLevel);
                         }
-                        
+                        // $('#exampleModal').modal('hide')
+                        document.getElementsByClassName("btn-close")[0].click()
                     }; 
                     hiddenaddress.value = data.address
                     geocoder.addressSearch(data.address, callback);
-                    
                 }
-            }).open();
+            }).embed(postLayer);
         }
     </script>
     
