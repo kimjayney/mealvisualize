@@ -193,7 +193,8 @@
             }
         }
 
-        function updateFilter(item, object) { 
+        function updateFilter(item, object) {
+            removeMarkers() 
             if(object.classList.contains("active")) {
                 object.classList.remove("active")
             } else {
