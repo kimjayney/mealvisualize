@@ -89,7 +89,7 @@
         submitbtn.onclick = () => {
             const form = document.getElementById("forsubmit");
             const parameter = new URLSearchParams(new FormData(form)).toString()
-            feh(`${API_URL}/api/post?${parameter}`).then(res => res.json())
+            fetch(`${API_URL}/api/post?${parameter}`).then(res => res.json())
             .then(json => {
                 console.log(json)
                 alert(json.message_ko_KR)
