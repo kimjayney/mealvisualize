@@ -20,15 +20,6 @@
     <div id="container">
         <h1>맛집등록🤣</h1>
         <b>디비를 채워주세요!</b>
-        <!-- const name = params.get('name')
-			const location = params.get('locations')
-			const mealtype = params.get('mealtype')
-			const feel = params.get('feel')
-			const price = params.get('price')
-			const rating = params.get('rating')
-			const REVIEW_CONTENT = params.get('review_content')
-			const lat = params.get('lat')
-			const lng = params.get('lng') -->
         <form method="get" action="https://backend.rainclab.workers.dev/api/post" id="forsubmit">
             <div class="form-floating mb-3">
                 <input required name="name" type="text" class="form-control" id="mealname" placeholder="맛있는제육식당">
@@ -89,8 +80,7 @@
             <div class="form-floating mb-3">
                 <input readonly name="lng" type="text" class="form-control" id="lng" placeholder="4.5">
                 <label for="lng">경도( 주소 입력시 자동 입력됨 )😂</label>
-            </div> 
-            
+            </div>
         </form>
         <div id="map" style=" width:100%;height:400px;">
 

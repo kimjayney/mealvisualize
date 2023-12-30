@@ -255,6 +255,14 @@
             }
             fetch(`https://backend.rainclab.workers.dev/api/get?${parameter.join("&")}`).then(res => res.json())
             .then(json => {
+                const reviewContentHumanize = `
+                <p>이름:${json.data[i].name}</p>
+                <p>평점:${json.data[i].rating}</p>
+                <p>분위기:${json.data[i].feel}</p>
+                <p>가격:${json.data[i].price}</p>
+                <p>음식종류:${json.data[i].mealtype}</p>
+                <p>사용자작성리뷰:${json.data[i].REVIEW_CONTENT}</p>
+                `
                 for(let i = 0; i < json.data.length; i++) {
                     addMarkers(json.data[i].Lat, json.data[i].Lng, json.data[i].REVIEW_CONTENT)
                 }
