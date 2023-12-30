@@ -265,7 +265,7 @@
                 <p>음식종류:${json.data[i].mealtype}</p>
                 <p>사용자작성리뷰:${json.data[i].REVIEW_CONTENT}</p>
                 `
-                    addMarkers(json.data[i].Lat, json.data[i].Lng, json.data[i].REVIEW_CONTENT)
+                    addMarkers(json.data[i].Lat, json.data[i].Lng, reviewContentHumanize)
                 }
                 loading.style="display:none";
             }).catch((e) => {
