@@ -176,13 +176,15 @@
             zoom:10,
             zoomControl: false 
         }
-        document.getElementsByClassName("indicator")[0].onclick = (e) => {
-            if (e.delegateTarget.classList.contains("black")) {
-                e.delegateTarget.classList.remove("black")
-            } else {
-                e.delegateTarget.classList.add("black")
-            }
-        }
+        offcanvasExample.addEventListener('show.bs.offcanvas', function (event) {
+          // Action to execute once the collapsible area is expanded
+          document.getElementsByClassName("indicator")[0].classList.remove("black")
+        })
+        offcanvasExample.addEventListener('hide.bs.offcanvas', function (event) {
+          // Action to execute once the collapsible area is expanded
+          document.getElementsByClassName("indicator")[0].classList.add("black")
+        })
+        
         let map = new L.map('map' , mapOptions);
         let all = ['Location','mealType','feel', 'price', 'rating' ]
         all.forEach((item) => {
