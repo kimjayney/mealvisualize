@@ -256,7 +256,7 @@
             fetch(`https://backend.rainclab.workers.dev/api/get?${parameter.join("&")}`).then(res => res.json())
             .then(json => {
                 var targetZoomLevel = 17; // 원하는 줌 레벨을 설정합니다. 
-                map.setView([json[0].y, json[0].x], targetZoomLevel);
+                map.setView([json.data[0].y, json.data[0].x], targetZoomLevel);
                 for(let i = 0; i < json.data.length; i++) {
                     const reviewContentHumanize = `
                 <p>이름:${json.data[i].NAME}</p>
