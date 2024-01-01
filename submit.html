@@ -44,12 +44,12 @@
               </div>
 
             <div class="form-floating mb-3">
-                <input data-bs-toggle="modal" data-bs-target="#exampleModal" name="locations" type="text" class="form-control" id="address" placeholder="서울 서초구 사임당로 111-4">
+                <input required data-bs-toggle="modal" data-bs-target="#exampleModal" name="locations" type="text" class="form-control" id="address" placeholder="서울 서초구 사임당로 111-4">
                 <label for="address">주소를 입력해 주세요! 예시)서초구 무슨동 무슨로 33</label>
             </div>
             <input id="hiddenaddress" type="hidden" name="address"/> 
             <div class="form-floating mb-3">
-                <select class="form-select" name="mealtype" id="floatingSelect" aria-label="Floating label select example">
+                <select required class="form-select" name="mealtype" id="floatingSelect" aria-label="Floating label select example">
                   <option selected>선택하세요! </option>
                   <option value="간식">간식</option>
                   <option value="분식">분식</option>
@@ -66,7 +66,7 @@
                 <label for="floatingSelect">음식의 종류를 알려주세요! 😌</label>
               </div>
             <div class="form-floating mb-3">
-                <select class="form-select" name="feel" id="feel" aria-label="Floating label select example">
+                <select required class="form-select" name="feel" id="feel" aria-label="Floating label select example">
                     <option selected>선택하세요! </option>
                     <option value="넓은">넓은</option>
                     <option value="분위기좋은">분위기좋은</option>
@@ -76,7 +76,7 @@
                   <label for="feel">분위기는 어땠을까요? 😌(넓은,분위기좋은,인테리어)</label>
             </div>
             <div class="form-floating mb-3">
-                <select class="form-select" name="price" id="price" aria-label="Floating label select example">
+                <select required class="form-select" name="price" id="price" aria-label="Floating label select example">
                     <option selected>선택하세요! </option>
                     <option value="비싼">비싼(2만원이상)</option>
                     <option value="보통">보통(1만원~)</option>
@@ -87,7 +87,7 @@
             <div class="form mb-5">
                 <label for="customRange2" class="form-label">평점은?🥺</label>
                 <b id="ratingtext">4점을 줄게요.😋</b>
-                <input name="rating" onchange="ratingtext.innerHTML=this.value + '점을 줄게요.😋'" type="range" class="form-range" step="0.5"  min="3.0" max="5.0" id="customRange2">
+                <input required name="rating" onchange="ratingtext.innerHTML=this.value + '점을 줄게요.😋'" type="range" class="form-range" step="0.5"  min="3.0" max="5.0" id="customRange2">
             </div>
             <div class="form-floating mb-3">
                 <input required name="review_content" type="text" class="form-control" id="review_content" placeholder="4.5">
